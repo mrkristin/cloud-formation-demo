@@ -1,0 +1,50 @@
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName
+Resources:
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - EC2_READ_S3
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-062f7200baf2fa504
+      SecurityGroups:
+        - !Ref DemoSecurityGroup
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !Ref KeyName
+      UserData:
+        'Fn::Base64':
+          !Sub |
+            #!/bin/bash
+            # should really do an update, but this takes up time when doing demos
+            # yum update -y
+            mkdir /var/go
+            echo "created directory" >> /var/go/user-data.log
+            aws s3 cp  s3://mrk2019-demo/go /var/go/ --recursive
+            echo "copied files" >> /var/go/user-data.log
+            chmod 0755 /var/go/demo /var/go/start.sh
+            echo "changed permissions" >> /var/go/user-data.log
+            (crontab -l 2>/dev/null; echo "* * * * * ps -ef | grep -v grep | grep var/go/demo > /dev/null || /var/go/start.sh") | crontab -
+            echo "updated cron"   >> /var/go/user-data.log
+  DemoSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22 and HTTP access via port 80
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '443'
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
