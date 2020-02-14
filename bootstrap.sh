@@ -3,7 +3,10 @@
 # yum update -y
 mkdir /var/go
 echo "created directory" >> /var/go/user-data.log
-aws s3 cp  s3://mrk2019-demo/go /var/go/ --recursive
+
+########## EDIT BUCKET NAME
+aws s3 cp  s3://<* * * bucket * * *>/go /var/go/ --recursive
+
 echo "copied files" >> /var/go/user-data.log
 chmod 0755 /var/go/demo /var/go/start.sh
 echo "changed permissions" >> /var/go/user-data.log

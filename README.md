@@ -79,17 +79,42 @@ In section 1 a security group, role, and server were manually created.
 
 In section 2 some of the configuration was automated by using a bootstrap script and previously created elements
 
-Introduce Cloud Formation
-Create a Role
-Create an EC2 instance
-connect together
-add bootstrap script
-create a stack
-what happened
-add a security group
-create a delta
-all is good
-delete the stack
+1. Introduce Cloud Formation
+1. Create a Role
+1. Create an EC2 instance
+1. connect together
+1. add bootstrap script
+1. create a stack
+1. what happened
+1. add a security group
+1. create a delta
+1. all is good
+1. delete the stack
 
 create a DEV stack
 create a QA stack
+
+## 4. Docker
+
+1. go over basic dockerfile
+    * `docker -t demo-go .`
+    * show file size when built locally
+1. go over slim docker file
+    * CGO & GOOS ???
+    * `docker -t demo-go-slim .`
+    * show file size when built locally
+    * mention ECR and costs
+    * 
+
+## 5 resources and articles
+
+* [crontab](https://en.wikipedia.org/wiki/Cron)
+* [Go Docker Image (callicoder)](https://www.callicoder.com/docker-golang-image-container-example/)
+* [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+* [Deploy Python to ECR (towardsdatascience)](https://towardsdatascience.com/how-to-deploy-a-docker-container-python-on-amazon-ecs-using-amazon-ecr-9c52922b738f)
+
+#### CGO & GOOS
+
+* [GOOS: go operating system ?](https://golang.org/cmd/go/)
+* [CGO_ENABLED: C GO](https://golang.org/cmd/cgo/)
+ 
